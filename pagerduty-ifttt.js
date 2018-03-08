@@ -1,13 +1,13 @@
-const request = require('request');
+var request = require('request');
 
 module.exports = function(context, callback) {
-  const iftttEventName = 'pagerduty_incident';
-  const iftttKey = context.secrets.iftttKey;
-  const iftttUrl = 'https://maker.ifttt.com/trigger/' + iftttEventName + '/with/key/' + iftttKey;
+var iftttEventName = 'pagerduty_incident';
+var iftttKey = context.secrets.iftttKey;
+var iftttUrl = 'https://maker.ifttt.com/trigger/' + iftttEventName + '/with/key/' + iftttKey;
   
   var triggerIFTTT = function (callback, value1, value2, value3) {
-    const payload = { value1, value2, value3 };
-    const options = {
+  var payload = { value1, value2, value3 };
+  var options = {
       url: iftttUrl,
       method: 'POST',
       body: payload,
@@ -60,7 +60,7 @@ module.exports = function(context, callback) {
   
   var messages = context.data.messages;
 
-  for (let i = 0; i < messages.length; i++) {
+  for (var i = 0; i < messages.length; i++) {
     process(messages[i]);
   }
 
