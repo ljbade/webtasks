@@ -1,58 +1,66 @@
 const request = require('request');
 
-const iftttEventName = 'pagerduty_incident';
-const iftttKey = context.secrets.iftttKey'b7SDUGu-stlD6XAE7UFFpL';
-const iftttUrl = 'https://maker.ifttt.com/trigger/' +
-  + iftttEventName + '/with/key/' + iftttKey;
-
-function triggerIFTTT(callback, value1, value2, value3) {
-  const payload = { value1, value2, value3 };
-  const options = {
-    url: iftttUrl,
-    method: 'POST',
-    body: payload,
-    json: true
-  };
-
-  request(options, function (error, response, body) {
-    if (error) {
-      console.log('IFTTT trigger error', error);
-      return;
+module.exports = function(context, callback) {
+  const iftttEventName = 'pagerduty_incident';
+  const iftttKey = context.secrets.iftttKey;
+  const iftttUrl = 'https://maker.ifttt.com/trigger/' + iftttEventName + '/with/key/' + iftttKey;
+  
+  var triggerIFTTT = function (callback, value1, value2, value3) {
+    const payload = { value1, value2, value3 };
+    const options = {
+      url: iftttUrl,
+      method: 'POST',
+      body: payload,
+      json: true
+    };
+  
+    request(options, function (error, response, body) {
+      if (error) {
+        console.log('IFTTT trigger error', error);
+        return;
+      }
+  
+      if (response.statusCode != 200) {
+        console.log('IFTTT HTTP error', response.statusCode);
+        console.log(body);
+        return;
+      }
+  
+      console.log('IFTTT triggered successfully');
+      console.log(body);
+    });
+  }
+  
+  var process = function (message) {
+    console.log('Processing message of event type', message.event);
+  
+    switch (message.event) {
+    case 'incident.trigger':
+      console.log('Triggered incident');
+      
+      if (!message.incident) {
+        console.log('Missing incident field');
+        return;
+      }
+  
+      var incident = message.incident;
+      console.log(incident.summary);
+    
+      triggerIFTTT(incident.summary, incident.html_url);
+      break;
+  
+    default:
+      console.log('Unrecognised message type', message.type);
     }
-
-    if (response != 200) {
-      console.log('IFTTT HTTP error', response, body);
-      return;
-    }
-
-    console.log('IFTTT triggered successfully', body);
-  });
-}
-
-function process(message) {
-  console.log('Processing message', message);
-
-  if (!message.data) {
-    console.log('Missing data field');
-    return;
   }
 
-  switch (message.type) {
-  case 'incident.trigger':
-    triggerIFTTT(message.data.html_url);
-    break;
-
-  default:
-    console.log('Unrecognised message type', message.type);
-  }
-}
-
-module.exports = function(context, cb) {
-  if (!messages) {
+  if (!context.data || !context.data.messages) {
     return callback('Missing messages field');
   }
+  
+  var messages = context.data.messages;
 
-  for (let i = 0; i < messages.length) {
+  for (let i = 0; i < messages.length; i++) {
     process(messages[i]);
   }
 
