@@ -44,7 +44,7 @@ var iftttUrl = 'https://maker.ifttt.com/trigger/' + iftttEventName + '/with/key/
       }
   
       var incident = message.incident;
-      console.log(incident);
+      console.log(incident.summary);
       
       if (incident.assigned_to_user.email === 'leith@swift-nav.com') {
         triggerIFTTT(incident.summary, incident.html_url);
@@ -55,6 +55,8 @@ var iftttUrl = 'https://maker.ifttt.com/trigger/' + iftttEventName + '/with/key/
       console.log('Unrecognised message type', message.type);
     }
   }
+  
+  console.log(context.data);
 
   if (!context.data || !context.data.messages) {
     return callback('Missing messages field');
