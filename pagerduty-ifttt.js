@@ -46,7 +46,7 @@ var iftttUrl = 'https://maker.ifttt.com/trigger/' + iftttEventName + '/with/key/
       var incident = message.incident;
       console.log(incident.summary);
       
-      if (assignments.find(x => x.email === 'leith@swift-nav.com')) {
+      if (incident.assignments.find(x => x.email === 'leith@swift-nav.com')) {
         triggerIFTTT(incident.summary, incident.html_url);
       }
       break;
