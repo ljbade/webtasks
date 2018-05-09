@@ -32,9 +32,9 @@ var iftttUrl = 'https://maker.ifttt.com/trigger/' + iftttEventName + '/with/key/
   }
   
   var process = function (message) {
-    console.log('Processing message of event type', message.type);
+    console.log('Processing message of event type', message.event);
     
-    switch (message.type) {
+    switch (message.event) {
     case 'incident.trigger':
       console.log('Triggered incident');
       
@@ -52,7 +52,7 @@ var iftttUrl = 'https://maker.ifttt.com/trigger/' + iftttEventName + '/with/key/
       break;
   
     default:
-      console.log('Unrecognised message type', message.type);
+      console.log('Unrecognised message type', message.event);
     }
   }
 
