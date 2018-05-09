@@ -33,6 +33,8 @@ var iftttUrl = 'https://maker.ifttt.com/trigger/' + iftttEventName + '/with/key/
   
   var process = function (message) {
     console.log('Processing message of event type', message.event);
+    
+    console.log(message.incident);
   
     switch (message.event) {
     case 'incident.trigger':
@@ -55,8 +57,6 @@ var iftttUrl = 'https://maker.ifttt.com/trigger/' + iftttEventName + '/with/key/
       console.log('Unrecognised message type', message.type);
     }
   }
-  
-  console.log(context.body);
 
   if (!context.body || !context.body.messages) {
     return callback('Missing messages field');
