@@ -32,9 +32,9 @@ var iftttUrl = 'https://maker.ifttt.com/trigger/' + iftttEventName + '/with/key/
   }
   
   var process = function (message) {
-    console.log('Processing message of event type', message.event);
+    console.log('Processing message of event type', message.type);
     
-    switch (message.event) {
+    switch (message.type) {
     case 'incident.trigger':
       console.log('Triggered incident');
       
