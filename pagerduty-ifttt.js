@@ -56,13 +56,13 @@ var iftttUrl = 'https://maker.ifttt.com/trigger/' + iftttEventName + '/with/key/
     }
   }
   
-  console.log(context.data);
+  console.log(context.body);
 
-  if (!context.data || !context.data.messages) {
+  if (!context.body || !context.body.messages) {
     return callback('Missing messages field');
   }
   
-  var messages = context.data.messages;
+  var messages = context.body.messages;
 
   for (var i = 0; i < messages.length; i++) {
     process(messages[i]);
