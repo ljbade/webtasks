@@ -34,8 +34,6 @@ var iftttUrl = 'https://maker.ifttt.com/trigger/' + iftttEventName + '/with/key/
   var process = function (message) {
     console.log('Processing message of event type', message.event);
     
-    console.log(message.incident);
-  
     switch (message.event) {
     case 'incident.trigger':
       console.log('Triggered incident');
@@ -48,7 +46,7 @@ var iftttUrl = 'https://maker.ifttt.com/trigger/' + iftttEventName + '/with/key/
       var incident = message.incident;
       console.log(incident.summary);
       
-      if (incident.assigned_to_user.email === 'leith@swift-nav.com') {
+      if (assignments.find(x => x.email === 'leith@swift-nav.com')) {
         triggerIFTTT(incident.summary, incident.html_url);
       }
       break;
