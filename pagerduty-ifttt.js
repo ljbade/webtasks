@@ -46,7 +46,7 @@ var iftttUrl = 'https://maker.ifttt.com/trigger/' + iftttEventName + '/with/key/
       var incident = message.incident;
       console.log(incident.summary);
       
-      if (incident.assignments.find(x => x.assignee.self === 'https://api.pagerduty.com/users/PKN1YKU')) {
+      if (incident.assignments.find(x => x.assignee.id === 'PKN1YKU')) {
         console.log('Triggering siren');
         triggerIFTTT(incident.summary, incident.html_url);
       } else {
