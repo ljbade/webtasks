@@ -47,7 +47,10 @@ var iftttUrl = 'https://maker.ifttt.com/trigger/' + iftttEventName + '/with/key/
       console.log(incident.summary);
       
       if (incident.assignments.find(x => x.email === 'leith@swift-nav.com')) {
+        console.log('Triggering siren');
         triggerIFTTT(incident.summary, incident.html_url);
+      } else {
+        console.log('Ignoring incident as not for Leith');
       }
       break;
   
